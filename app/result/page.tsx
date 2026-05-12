@@ -5,20 +5,39 @@ import { generateAudit } from "@/lib/auditEngine";
 
 export default function ResultPage() {
     const [result, setResult] = useState<any>(null);
+    const [summary, setSummary] = useState("");
 
     useEffect(() => {
-        const data = JSON.parse(localStorage.getItem("audit") || "{}");
+        const runAudit = async () => {
+            const data = JSON.parse(localStorage.getItem("audit") || "{}");
 
-        const audit = generateAudit(
-            data.tool,
-            data.plan,
-            Number(data.seats)
-        );
+            const audit = generateAudit(
+                data.tool,
+                data.plan,
+                Number(data.seats)
+            );
 
-        setResult({
-            ...data,
-            ...audit,
-        });
+            const finalData = {
+                ...data,
+                ...audit,
+            };
+
+            setResult(finalData);
+
+            const response = await fetch("/api/summary", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(finalData),
+            });
+
+            const aiData = await response.json();
+
+            setSummary(aiData.summary);
+        };
+
+        runAudit();
     }, []);
 
     if (!result) return null;
@@ -81,13 +100,11 @@ export default function ResultPage() {
 
                     <div className="bg-zinc-800 p-6 rounded-2xl">
                         <p className="text-zinc-400 mb-2">
-                            Summary
+                            AI Generated Summary
                         </p>
 
                         <p className="text-lg leading-relaxed">
-                            Your organization may be overspending on AI subscriptions.
-                            Optimizing plan selection and reducing unnecessary enterprise
-                            tiers could significantly reduce annual operating costs.
+                            {summary || "Generating summary..."}
                         </p>
                     </div>
                 </div>
