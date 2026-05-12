@@ -33,7 +33,7 @@ export async function POST(req: Request) {
         return NextResponse.json({
             summary: response.choices[0].message.content,
         });
-    } catch (error) {
+    } catch {
         return NextResponse.json({
             summary:
                 "Your company may reduce AI software costs by optimizing subscriptions and avoiding unnecessary enterprise plans.",

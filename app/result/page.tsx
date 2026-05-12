@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 import { generateAudit } from "@/lib/auditEngine";
 
 export default function ResultPage() {
-    const [result, setResult] = useState<any>(null);
+    const [result, setResult] = useState<{
+        tool: string;
+        recommendation: string;
+        savings: number;
+        annualSavings: number;
+    } | null>(null);
     const [summary, setSummary] = useState("");
 
     useEffect(() => {
@@ -51,7 +56,7 @@ export default function ResultPage() {
                     </h1>
 
                     <p className="text-zinc-400 mt-3">
-                        Here's your AI spending optimization report.
+                        Here&apos;s your AI spending optimization report.
                     </p>
                 </div>
 
