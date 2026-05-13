@@ -1,3 +1,7 @@
+## Live Demo
+
+https://credex-ai-audit-xi.vercel.app/
+
 # AI Spend Audit
 
 AI Spend Audit is a lightweight SaaS-style auditing tool that helps startups identify unnecessary AI subscription spending and discover optimization opportunities.
